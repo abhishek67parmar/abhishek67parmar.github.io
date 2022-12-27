@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>Page Title</title>
+    <title>Abhishek Parmar</title>
     <style>
         * {
             margin: 0;
@@ -27,6 +27,10 @@
             font-family: 'Courier New', monospace;
             font-size: 5rem;
             color: #fff;
+        }
+
+        .text:hover {
+            cursor: pointer;
         }
 
         .text_hide {
@@ -57,16 +61,16 @@
 </head>
 
 <body>
-    <a href="https://abhishekparmar.herokuapp.com/">
-        <div class="container">
-            <div class="text_hide"></div>
-            <!----------------------------->
-            <!--Change the number of words in the text and the animation will still work-->
-            <div class="text">&gt;whoami</div>
-            <!-------------------------------------->
-            <div class="text_cursor"></div>
-        </div>
-    </a>
+    <!-- <a href="#" > -->
+    <div class="container" onclick="changeText()">
+        <div class="text_hide"></div>
+        <!----------------------------->
+        <!--Change the number of words in the text and the animation will still work-->
+        <div class="text" id="text">$ whoami</div>
+        <!-------------------------------------->
+        <div class="text_cursor"></div>
+    </div>
+    <!-- </a> -->
 
 
     <script>
@@ -214,6 +218,18 @@
             }
         }
         typing_animation();
+
+        function changeText() {
+            var text = document.getElementById("text");
+            console.log(text.innerHTML);
+
+            if (text.innerHTML === "$ whoami") {
+                text.innerHTML = "$ This is Abhishek.";
+            }
+            // else {
+            //     text.innerHTML = "Hello";
+            // }
+        } 
     </script>
 </body>
 
