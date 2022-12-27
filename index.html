@@ -1,8 +1,220 @@
 <!DOCTYPE html>
 <html>
+
+<head>
+    <title>Page Title</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: black;
+        }
+
+
+        .container {
+            position: relative;
+        }
+
+        .text {
+            font-family: 'Courier New', monospace;
+            font-size: 5rem;
+            color: #fff;
+        }
+
+        .text_hide {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: #000;
+        }
+
+        .text_cursor {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: transparent;
+            border-left: 3px solid #fff;
+        }
+
+        a {
+
+            text-decoration: none;
+
+        }
+    </style>
+</head>
+
 <body>
+    <a href="https://abhishekparmar.herokuapp.com/">
+        <div class="container">
+            <div class="text_hide"></div>
+            <!----------------------------->
+            <!--Change the number of words in the text and the animation will still work-->
+            <div class="text">&gt;whoami</div>
+            <!-------------------------------------->
+            <div class="text_cursor"></div>
+        </div>
+    </a>
 
-<h1>Hey Mate, This is Abhishek.</h1>
 
+    <script>
+        function typing_animation() {
+            let text_element = document.querySelector(".text");
+            let text_array = text_element.innerHTML.split("");
+            let text_array_slice = text_element.innerHTML.split(" ");
+            let text_len = text_array.length;
+
+            const word_len = text_array_slice.map((word) => {
+                return word.length;
+            })
+
+            console.log(word_len);
+
+            let timings = {
+                easing: `steps(${Number(word_len[0] + 1)}, end)`,
+                delay: 2000,
+                duration: 2000,
+                fill: 'forwards'
+            }
+
+            let cursor_timings = {
+                duration: 700,
+                iterations: Infinity,
+                easing: 'cubic-bezier(0,.26,.44,.93)'
+            }
+
+            document.querySelector(".text_cursor").animate([
+                {
+                    opacity: 0
+                },
+                {
+                    opacity: 0, offset: 0.7
+                },
+                {
+                    opacity: 1
+                }
+            ], cursor_timings);
+
+            if (text_array_slice.length == 1) {
+                timings.easing = `steps(${Number(word_len[0])}, end)`;
+
+                let reveal_animation = document.querySelector(".text_hide").animate([
+                    { left: '0%' },
+                    { left: `${(100 / text_len) * (word_len[0])}%` }
+                ], timings);
+
+                document.querySelector(".text_cursor").animate([
+                    { left: '0%' },
+                    { left: `${(100 / text_len) * (word_len[0])}%` }
+                ], timings);
+
+                reveal_animation.onfinish = () => {
+                    setTimeout(() => {
+                        document.querySelector('.text_hide').animate([
+                            { left: '0%' }
+                        ], {
+                            duration: 2000,
+                            easing: 'cubic-bezier(.73,0,.38,.88)'
+                        });
+                        document.querySelector('.text_cursor').animate([
+                            { left: '0%' }
+                        ], {
+                            duration: 2000,
+                            easing: 'cubic-bezier(.73,0,.38,.88)'
+                        });
+                        typing_animation();
+                    }, 1000);
+                }
+            } else {
+                document.querySelector(".text_hide").animate([
+                    { left: '0%' },
+                    { left: `${(100 / text_len) * (word_len[0] + 1)}%` }
+                ], timings);
+
+                document.querySelector(".text_cursor").animate([
+                    { left: '0%' },
+                    { left: `${(100 / text_len) * (word_len[0] + 1)}%` }
+                ], timings);
+            }
+
+
+            for (let i = 1; i < text_array_slice.length; i++) {
+                console.log(word_len);
+                console.log(text_array_slice.length);
+                const single_word_len = word_len[i];
+                console.log(single_word_len);
+
+                if (i == 1) {
+                    var left_instance = (100 / text_len) * (word_len[i - 1] + 1);
+                    console.log(left_instance);
+                }
+
+                let timings_2 = {
+                    easing: `steps(${Number(single_word_len + 1)}, end)`,
+                    delay: (2 * (i + 1) + (2 * i)) * (1000),
+                    // delay: ((i*2)-1)*1000,
+                    duration: 2000,
+                    fill: 'forwards'
+                }
+
+                if (i == (text_array_slice.length - 1)) {
+                    timings_2.easing = `steps(${Number(single_word_len)}, end)`;
+                    let reveal_animation = document.querySelector(".text_hide").animate([
+                        { left: `${left_instance}%` },
+                        { left: `${left_instance + ((100 / text_len) * (word_len[i]))}%` }
+                    ], timings_2);
+
+                    document.querySelector(".text_cursor").animate([
+                        { left: `${left_instance}%` },
+                        { left: `${left_instance + ((100 / text_len) * (word_len[i]))}%` }
+                    ], timings_2);
+
+                    reveal_animation.onfinish = () => {
+                        setTimeout(() => {
+                            document.querySelector('.text_hide').animate([
+                                { left: '0%' }
+                            ], {
+                                duration: 2000,
+                                easing: 'cubic-bezier(.73,0,.38,.88)'
+                            });
+                            document.querySelector('.text_cursor').animate([
+                                { left: '0%' }
+                            ], {
+                                duration: 2000,
+                                easing: 'cubic-bezier(.73,0,.38,.88)'
+                            });
+                            typing_animation();
+                        }, 1000);
+                    }
+                } else {
+                    document.querySelector(".text_hide").animate([
+                        { left: `${left_instance}%` },
+                        { left: `${left_instance + ((100 / text_len) * (word_len[i] + 1))}%` }
+                    ], timings_2);
+
+                    document.querySelector(".text_cursor").animate([
+                        { left: `${left_instance}%` },
+                        { left: `${left_instance + ((100 / text_len) * (word_len[i] + 1))}%` }
+                    ], timings_2);
+                }
+
+                left_instance = left_instance + ((100 / text_len) * (word_len[i] + 1));
+            }
+        }
+        typing_animation();
+    </script>
 </body>
+
 </html>
