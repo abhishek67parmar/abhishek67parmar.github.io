@@ -62,7 +62,7 @@
 
 <body>
     <!-- <a href="#" > -->
-    <div class="container" onclick="changeText()">
+    <div class="container" onclick="changeText()" keypress="changeText()">
         <div class="text_hide"></div>
         <!----------------------------->
         <!--Change the number of words in the text and the animation will still work-->
@@ -219,16 +219,18 @@
         }
         typing_animation();
 
-        function changeText() {
-            var text = document.getElementById("text");
-            console.log(text.innerHTML);
+        function changeText(event) {
+            if (event.keyCode === 13) {
+                var text = document.getElementById("text");
+                console.log(text.innerHTML);
 
-            if (text.innerHTML === "$ whoami") {
-                text.innerHTML = "$ This is Abhishek.";
+                if (text.innerHTML === "$ whoami") {
+                    text.innerHTML = "$ This is Abhishek.";
+                }
+                // else {
+                //     text.innerHTML = "Hello";
+                // }
             }
-            // else {
-            //     text.innerHTML = "Hello";
-            // }
         } 
     </script>
 </body>
