@@ -62,7 +62,7 @@
 
 <body>
     <!-- <a href="#" > -->
-    <div class="container" onclick="changeText()" keypress="changeText()">
+    <div class="container" onclick="changeText()">
         <div class="text_hide"></div>
         <!----------------------------->
         <!--Change the number of words in the text and the animation will still work-->
@@ -232,6 +232,7 @@
                 // }
             }
         } 
+        document.onkeypress = changeText;
     </script>
 </body>
 
